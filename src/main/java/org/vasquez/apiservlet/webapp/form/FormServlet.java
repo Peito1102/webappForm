@@ -58,6 +58,7 @@ public class FormServlet extends HttpServlet {
         }
 
         try (PrintWriter out = resp.getWriter()) {
+            if (errores.isEmpty()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("     <head>");
@@ -67,7 +68,7 @@ public class FormServlet extends HttpServlet {
             out.println("     <body>");
             out.println("         <h1>Resultado form!</h1>");
             out.println("         <ul>");
-            if (errores.isEmpty()) {
+
                 out.println("           <li>Username: " + username + "</li>");
                 out.println("           <li>Password: " + password + "</li>");
                 out.println("           <li>Email: " + email + "</li>");
@@ -85,15 +86,19 @@ public class FormServlet extends HttpServlet {
                 out.println("           <li>Idioma: " + idioma + "</li>");
                 out.println("           <li>Habilitado: " + habilitar + "</li>");
                 out.println("           <li>Secreto: " + secreto + "</li>");
+                out.println("         </ul>");
+                out.println("     </body>");
+                out.println("</html>");
             } else {
+                /*
                 errores.forEach(e -> {
                     out.println("           <li>" + e + "</li>");
                 });
-                out.println("<p><a href=\"/webappForm/index.html\">volver</a></p>");
+                out.println("<p><a href=\"/webappForm/index.jsp\">volver</a></p>");*/
+
+                req.setAttribute("errores",errores);
+                getServletContext().getRequestDispatcher("/index.jsp").forward(req,resp);
             }
-            out.println("         </ul>");
-            out.println("     </body>");
-            out.println("</html>");
         }
 
     }
